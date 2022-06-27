@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const faker = require('faker')
 class CategoriesService{
 
@@ -5,32 +6,39 @@ class CategoriesService{
     this.categories = []
     this. generate
   }
-
   generate(){
-    const limit = 100;
+    const limit = 10
     for (let index = 0; index < limit; index++) {
-      this.products.push({
-
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName()
-      })
-
+      this.categories.push({
+        id:faker.datatype.uuid(),
+        category: faker.commerce.department(),
+      });
     }
   }
-
-  create(){
-    const newCategory = {
-      
-    }
-  }
-
-  find(){
+  async getAll(){
     return this.categories
   }
-
-  findOne(categoryId,productId){
-    return this.categories.find(item=>item.categoryId === categoryId, item2 =>item2.productId===productId)
+  async getOne(id){
+    const category = this.categories.find(category => category.id === id);
+    if (!category) {
+      throw boom.notFound('Category not found');
+    }
+    return category
   }
-}
-
-module.exports = CategoriesService
+  async create(data){
+    const newCategory={
+      id:faker.datatype.uuid(),
+      ...data
+    }
+    this.categories.push(newCategory);
+    return newCategory;
+  }
+  async getByName(name){
+    const category = this.categories.find(category => category.category === name);
+    if (!category) {
+      throw boom.notFound('Category not found');
+    }
+    return category
+  }
+} 
+module.exports = CategoriesService;
