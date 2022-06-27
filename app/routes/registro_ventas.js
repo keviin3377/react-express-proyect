@@ -1,39 +1,33 @@
-
 const express = require('express')
-const res = require('express/lib/response')
 const router = express.Router()
 
 const registro_ventasService = require('../services/registro_ventas.services')
 const service = new registro_ventasService()
 
-router.get('/',async (req,res)=>{
+router.get('/', async (req, res) => {
 
   const registro_ventas = await service.find()
   res.send(registro_ventas)
 })
 
-router.get('/filter',(req,res)=>{
-  res.send("Soy un filter")
-})
-
-router.get('/:id',async (req,res)=>{
-  const {id} = req.params
+router.get('/:id', async (req, res) => {
+  const { id } = req.params
   const registro_ventas = await service.findOne(id)
 
   res.json(registro_ventas)
 })
 
-router.post('/',async (req,res)=>{
+router.post('/', async (req, res) => {
   const body = req.body
   const newcarrito = await service.create(body)
   res.status(200).json(newcarrito)
 })
 
-router.patch('/:id',async (req,res)=>{
+router.patch('/:id', async (req, res) => {
   try {
-    const {id} = req.params
+    const { id } = req.params
     const body = req.body
-    const registro_ventas = await service.update(id,body)
+    const registro_ventas = await service.update(id, body)
     res.json(registro_ventas)
   } catch (error) {
     res.status(404).json({
@@ -42,9 +36,9 @@ router.patch('/:id',async (req,res)=>{
   }
 })
 
-router.delete('/:id', async(req,res)=>{
-  const {id} = req.params
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
   const rta = await service.delete(id)
   res.json(rta)
 })
-module.exports = router
+module.exports = router;

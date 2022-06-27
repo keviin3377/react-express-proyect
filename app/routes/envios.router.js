@@ -1,7 +1,7 @@
 // responsabilidades unicas
 const express= require('express');
 
-const Envioservice= require('./../services/envios.services')
+const Envioservice= require('../services/envios.service')
 const validatorHandler =require('./../middlewares/validator.handler')
 const{createEnvioSchema,updateEnvioSchema,getEnvioSchema}=require('./../schemas/envios.schema')
 
