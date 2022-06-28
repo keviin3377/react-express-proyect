@@ -1,11 +1,5 @@
-
 const faker= require('faker');
-
 const boom=require('@hapi/boom')
-
-
-
-
 
 class Enviosservice{
 constructor(){
@@ -38,15 +32,9 @@ id:faker.datatype.uuid(),
 
 
 isBlock: faker.datatype.boolean(),
-
-
     })
-
   }
-
 }
-
-
 
 async create(data){
 
@@ -60,11 +48,6 @@ return newEnvio
 
 }
 
-
-
-
-
-
 async find(){
 
   return new Promise((resolve,reject)=>{
@@ -77,32 +60,21 @@ async find(){
 
   async findone(id){
    // const name= this.getTotal()
-
   const envios=this.envios.find(item=>item.id===id)
   if(!envios){
-
    throw  boom.notFound('Envio encontrado')
   }
   if(envios.isBlock){
-
     throw  boom.conflict('envio bloqueado')
   }
 return envios
   }
-
-
-
-
 async update(id,changes){
-
 const index= this.envios.findIndex(item=> item.id===id)
-
 if (index=== -1){
-
-
 throw boom.notFound('envio no encontrado')
-
 }
+
 const envios=this.envios[index]
 this.envios[index]={
 
@@ -111,7 +83,6 @@ this.envios[index]={
 }
 return this.envios[index]
 }
-
 
 async delete(id){
   const index= this.envios.findIndex(item=> item.id===id)
@@ -123,9 +94,8 @@ throw boom.notFound('envio no encontrado')
  this.envios[index]
   return {id }
 }
-
 }
 
 
 
-module.exports=Enviosservice
+module.exports= Enviosservice;

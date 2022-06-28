@@ -1,106 +1,40 @@
-// responsabilidades unicas
 const express= require('express');
-
 const Envioservice= require('../services/envios.service')
 const validatorHandler =require('./../middlewares/validator.handler')
 const{createEnvioSchema,updateEnvioSchema,getEnvioSchema}=require('./../schemas/envios.schema')
 
+const {
+  createEnvioSchema,
+  updateEnvioSchema,
+  getEnvioSchema
+} = require('./../schemas/envios.schema');
 
-const router = express.Router()
+const router = express.Router();
+const service = Envioservice;
 
-const service= new Envioservice()
- //query param
-router.get('/',async(req,res)=>{
+router.get('/',(req,res)=>{
+  const envios = service.find()
+  res.json(envios)
+});
 
-  const envios= await service.find()
+router.get('/:id',validatorHandler(getEnvioSchema),(req,res)=>{
+  const envio = service.findById(req.params.id)
+  res.json(envio)
+});
 
-      res.json(envios);
+router.post('/',validatorHandler(createEnvioSchema),(req,res)=>{
+  const envio = service.create(req.body)
+  res.json(envio)
+});
 
-      })
+router.put('/:id',validatorHandler(updateEnvioSchema),(req,res)=>{
+  const envio = service.update(req.params.id,req.body)
+  res.json(envio)
+});
 
-  // ejecucion http://localhost:7000/productos?size=10
+router.delete('/:id',(req,res)=>{
+  const envio = service.delete(req.params.id)
+  res.json(envio)
+});
 
-  //endpoint get
-
-
-  //filter
-  router.get('/filter',(req,res)=>{
-
-
-    res.send('soy un filter')
-
-
-    })
-    //cierre endpoint get filter
-
-// llamar por  id a un producto
-
-router.get('/:id',
-validatorHandler(getEnvioSchema, 'params'),
-async(req,res,next)=>{
-
-  try{
-
-    const{id}=req.params
-    const envios=await service.findone(id)
-    res.json(envios)
-
-  }catch(error){
-    next(error)
-  }
-}
-
-
-)
-
-//cierre de llamra por  id a un producto
-
-//metodo post
-router.post('/',
-
-validatorHandler(createEnvioSchema,'body'),
-async(req,res)=>{
-
-  const body= req.body;
-const newEnvio= await service.create(body)
-  res.status(201).json(newEnvio)
-
-
-  }
-  )
-
-
-
-  //cierre metodo post
-
-  //metodo patch
-router.patch('/:id',
-validatorHandler(createEnvioSchema, 'params')  ,
-validatorHandler(updateEnvioSchema, 'body')  ,
-async(req,res,next)=>{
-
-  try {
-    const{id}=req.params
-    const body= req.body;
-  const envios= await service.update(id,body)
-    res.json(envios)
-
-  }catch(error){
-  next(error)
-  }
-   }
-  )
-  //cierre de metodo path
-
-  // metodo delete
-
-  router.delete('/:id',async(req,res)=>{
-    const{id}=req.params
-    const rta= await service.delete(id)
-
-
-      res.json(rta)
-
-      })
-  //cierre metodo delete
-module.exports = router
+module.exports = router;
