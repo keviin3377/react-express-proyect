@@ -3,7 +3,7 @@ const routerApi= require('./routes');
 
 const{logErrors, errorHandler,boomerrorHandler}=require('./middlewares/error.handler');
 const app= express();
-const port=3000;
+const port = process.env.PORT||3000;
 //mostrar cuerpo del json por post
 app.use(express.json())
 
