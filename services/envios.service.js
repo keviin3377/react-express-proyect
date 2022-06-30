@@ -10,7 +10,7 @@ constructor(){
 
 generate(){
 
-  const limit=  100
+  const limit=  10
 
 
   for (let index = 0; index <limit; index++) {
@@ -62,7 +62,7 @@ async find(){
    // const name= this.getTotal()
   const envios=this.envios.find(item=>item.id===id)
   if(!envios){
-   throw  boom.notFound('Envio encontrado')
+   throw  boom.notFound('Envio no encontrado')
   }
   if(envios.isBlock){
     throw  boom.conflict('envio bloqueado')

@@ -1,38 +1,22 @@
-// /* eslint-disable no-console */
-// const express=require('express');
-// const cors=require('cors');
-// const routerApi=require('./routes');
-// const {logErrors,errorHandler,boomErrorHandler}=require('./middlewares/error.handler')
+const express= require('express');
+const routerApi= require('./routes');
 
-// const app=express();
+const{logErrors, errorHandler,boomerrorHandler}=require('./middlewares/error.handler');
+const app= express();
+const port=3000;
+//mostrar cuerpo del json por post
+app.use(express.json())
 
-// const port=process.env.PORT||3000;
-// app.use(express.json()) 
+//cierre de mostrar cuerpo jsonpor post
+routerApi(app)
 
-// app.use(cors());
-// routerApi(app);
+routerApi(app)
 
-// app.get('/',(req,res)=>{
-//   res.send('servidor de express');
-// })
+app.use(logErrors)
+app.use(boomerrorHandler)
+app.use(errorHandler)
+app.listen(port,()=>{
 
-// //orden de las lineas da la secuencia
-// app.use(logErrors);
-// app.use(boomErrorHandler);
-// app.use(errorHandler);
+  console.log('mi port'+port);
+})
 
-// app.listen(port, () => {
-//   console.log('mi port ' + port); //console.log resaltado por mala práctica
-// });
-
-// //simple server without express
-const http=require('http');
-const port=process.env.PORT||3000;
-const server=http.createServer((req,res)=>{
-  res.end('hello world');
-}
-);
-server.listen(port);
-console.log('server running on port '+port);
-
-export default port;
